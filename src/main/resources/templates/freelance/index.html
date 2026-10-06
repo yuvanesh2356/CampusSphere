@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Hub - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/freelance.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h2 class="cs-dashboard-title mb-0">Freelance Hub</h2>
+        <a href="/freelance/create" class="btn btn-cs-primary">+ Post a Service</a>
+    </div>
+    <p class="cs-dashboard-subtitle">Find or offer help with records, PPTs, posters, resumes, coding, and more.</p>
+
+    <!-- Flash messages from create/edit/delete redirects -->
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Search + category filter -->
+    <form class="frl-toolbar row g-2 align-items-end" method="get" th:action="@{/freelance}">
+        <div class="col-md-6">
+            <label for="keyword" class="form-label">Search</label>
+            <input type="text" class="form-control" id="keyword" name="keyword"
+                   placeholder="Search by title or description" th:value="${keyword}">
+        </div>
+        <div class="col-md-4">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">All Categories</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat}"
+                        th:text="${cat}"
+                        th:selected="${cat == selectedCategory}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-cs w-100">Apply</button>
+        </div>
+    </form>
+
+    <!-- Service grid -->
+    <div class="row g-4" th:if="${!services.isEmpty()}">
+        <div class="col-lg-3 col-md-4 col-sm-6" th:each="service : ${services}">
+            <a class="frl-card" th:href="@{'/freelance/' + ${service.id}}">
+                <img th:if="${service.sampleImageUrl}" class="frl-card-image" th:src="@{${service.sampleImageUrl}}" alt="Service sample image">
+                <div class="frl-card-image-placeholder" th:unless="${service.sampleImageUrl}">No Sample Image</div>
+                <div class="frl-card-body">
+                    <div class="frl-card-title" th:text="${service.title}"></div>
+                    <div class="frl-card-price"
+                         th:text="(${service.priceType.name() == 'STARTING_FROM'} ? 'From ₹' : '₹') + ${service.price}"></div>
+                    <div class="frl-card-meta" th:text="${service.category}"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="frl-empty-state" th:if="${services.isEmpty()}">
+        <h5>No services found</h5>
+        <p>Try a different search term or category, or be the first to post one.</p>
+        <a href="/freelance/create" class="btn btn-cs-primary">Post the first service</a>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title} + ' - CampusSphere Guidance Hub'">Guidance - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/guidance.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <a href="/guidance" class="btn btn-outline-cs btn-sm mb-3">&larr; Back to Guidance Hub</a>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="gdn-detail-panel">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h3 th:text="${post.title}"></h3>
+                    <span class="badge"
+                          th:classappend="${post.status.name() == 'PUBLISHED'} ? 'gdn-badge-published' : 'gdn-badge-hidden'"
+                          th:text="${post.status}"></span>
+                </div>
+
+                <p class="gdn-card-meta mb-3" th:text="${post.category}"></p>
+
+                <p class="gdn-card-meta mb-3" th:if="${post.relevantYear != null or post.relevantDepartment != null}">
+                    Most relevant to:
+                    <span th:if="${post.relevantYear != null}" th:text="'Year ' + ${post.relevantYear}"></span>
+                    <span th:if="${post.relevantYear != null and post.relevantDepartment != null}"> &middot; </span>
+                    <span th:if="${post.relevantDepartment != null}" th:text="${post.relevantDepartment}"></span>
+                </p>
+
+                <h6>Description</h6>
+                <p th:text="${post.description}" style="white-space: pre-wrap;"></p>
+
+                <div th:if="${post.attachmentUrl}" class="mb-3">
+                    <h6>Attachment</h6>
+                    <a th:href="@{${post.attachmentUrl}}" target="_blank" class="btn btn-sm btn-outline-cs">View Attachment</a>
+                </div>
+
+                <p class="gdn-card-meta">
+                    Posted on <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy')}"></span>
+                    <span th:if="${post.updatedAt != null and !post.updatedAt.equals(post.createdAt)}"
+                          th:text="' · Updated ' + ${#temporals.format(post.updatedAt, 'dd MMM yyyy')}"></span>
+                </p>
+
+                <!-- Owner-only actions -->
+                <div class="d-flex gap-2 mt-3" th:if="${post.ownedByCurrentUser}">
+                    <a class="btn btn-outline-cs" th:href="@{'/guidance/' + ${post.id} + '/edit'}">Edit Post</a>
+                    <form th:action="@{'/guidance/' + ${post.id} + '/delete'}" method="post"
+                          onsubmit="return confirm('Delete this guidance post? This cannot be undone.');">
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="gdn-author-box">
+                <strong>Shared by</strong>
+                <p class="mb-0" th:text="${post.authorName}"></p>
+                <p class="gdn-card-meta mb-0" th:text="${post.authorDepartment}"></p>
+                <p class="gdn-card-meta mb-0" th:if="${post.authorYearOfStudy != null}"
+                   th:text="'Year ' + ${post.authorYearOfStudy}"></p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

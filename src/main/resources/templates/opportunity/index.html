@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Opportunities - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/opportunity.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="cs-dashboard-title mb-0">&#127760; Global Opportunities</h2>
+            <p class="cs-dashboard-subtitle mb-0">Hackathons, competitions, workshops, and challenges from across the world.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/global/saved" class="btn btn-outline-cs">&#9733; My Saved</a>
+            <a href="/global/create" class="btn btn-cs-primary" sec:authorize="hasRole('ADMIN')">+ Post Opportunity</a>
+        </div>
+    </div>
+
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Search + category/mode filter -->
+    <form class="opp-toolbar row g-2 align-items-end" method="get" th:action="@{/global}">
+        <div class="col-md-5">
+            <label for="keyword" class="form-label">Search</label>
+            <input type="text" class="form-control" id="keyword" name="keyword"
+                   placeholder="Search by title, organization, or description" th:value="${keyword}">
+        </div>
+        <div class="col-md-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">All Categories</option>
+                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"
+                        th:selected="${cat == selectedCategory}"></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="mode" class="form-label">Mode</label>
+            <select class="form-select" id="mode" name="mode">
+                <option value="">Online &amp; Offline</option>
+                <option th:each="m : ${modes}" th:value="${m}" th:text="${m}"
+                        th:selected="${m == selectedMode}"></option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-outline-cs w-100">Go</button>
+        </div>
+    </form>
+
+    <!-- Discovery feed -->
+    <div class="row g-4" th:if="${!opportunities.isEmpty()}">
+        <div class="col-lg-4 col-md-6" th:each="opp : ${opportunities}">
+            <div class="opp-card">
+                <a th:href="@{'/global/' + ${opp.id}}">
+                    <img th:if="${opp.bannerImageUrl}" class="opp-card-banner" th:src="@{${opp.bannerImageUrl}}" alt="Opportunity banner">
+                    <div class="opp-card-banner-placeholder" th:unless="${opp.bannerImageUrl}">
+                        <span th:switch="${opp.category.name()}">
+                            <span th:case="'HACKATHON'">&#128187;</span>
+                            <span th:case="'CODING_COMPETITION'">&#8987;</span>
+                            <span th:case="'INNOVATION_COMPETITION'">&#128161;</span>
+                            <span th:case="'WORKSHOP'">&#128736;</span>
+                            <span th:case="'GLOBAL_CHALLENGE'">&#127760;</span>
+                            <span th:case="'STARTUP_COMPETITION'">&#128640;</span>
+                            <span th:case="*">&#128204;</span>
+                        </span>
+                    </div>
+                </a>
+                <span class="opp-card-category" th:text="${opp.category}"></span>
+                <div class="opp-card-body">
+                    <div class="opp-card-org" th:text="${opp.organization}"></div>
+                    <a th:href="@{'/global/' + ${opp.id}}" style="text-decoration:none;">
+                        <div class="opp-card-title" th:text="${opp.title}"></div>
+                    </a>
+                    <div class="opp-card-meta-row">
+                        <span class="badge opp-badge-mode"
+                              th:classappend="${opp.mode.name() == 'ONLINE'} ? 'opp-badge-online' : (${opp.mode.name() == 'OFFLINE'} ? 'opp-badge-offline' : 'opp-badge-hybrid')"
+                              th:text="${opp.mode}"></span>
+                        <span class="badge opp-badge-mode"
+                              th:classappend="${opp.status.name() == 'UPCOMING'} ? 'opp-badge-upcoming' : (${opp.status.name() == 'OPEN'} ? 'opp-badge-open' : 'opp-badge-closed')"
+                              th:text="${opp.status}"></span>
+                    </div>
+                    <div class="opp-card-footer">
+                        <span class="opp-deadline">Register by <strong th:text="${#temporals.format(opp.registrationDeadline, 'dd MMM')}"></strong></span>
+                        <form th:action="@{'/global/' + ${opp.id} + '/bookmark'}" method="post">
+                            <input type="hidden" name="redirectTo" value="/global">
+                            <button type="submit" class="opp-bookmark-btn" th:classappend="${opp.bookmarkedByCurrentUser} ? 'opp-bookmarked'"
+                                    th:title="${opp.bookmarkedByCurrentUser} ? 'Remove bookmark' : 'Save opportunity'"
+                                    th:text="${opp.bookmarkedByCurrentUser} ? '★' : '☆'"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="opp-empty-state" th:if="${opportunities.isEmpty()}">
+        <h5>No opportunities found</h5>
+        <p>Try a different search term, category, or mode filter.</p>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

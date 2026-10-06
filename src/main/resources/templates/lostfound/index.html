@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost &amp; Found - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/lostfound.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h2 class="cs-dashboard-title mb-0">Lost &amp; Found</h2>
+        <a href="/lostfound/create" class="btn btn-cs-primary">+ Report an Item</a>
+    </div>
+    <p class="cs-dashboard-subtitle">Report a lost item, or something you found, to reconnect it with its owner.</p>
+
+    <!-- Flash messages from create/edit/delete redirects -->
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Search + type/category/status filters -->
+    <form class="lf-toolbar row g-2 align-items-end" method="get" th:action="@{/lostfound}">
+        <div class="col-md-4">
+            <label for="keyword" class="form-label">Search</label>
+            <input type="text" class="form-control" id="keyword" name="keyword"
+                   placeholder="Search by title or description" th:value="${keyword}">
+        </div>
+        <div class="col-md-2">
+            <label for="postType" class="form-label">Type</label>
+            <select class="form-select" id="postType" name="postType">
+                <option value="">Lost &amp; Found</option>
+                <option th:each="pt : ${postTypes}"
+                        th:value="${pt}"
+                        th:text="${pt}"
+                        th:selected="${pt == selectedPostType}"></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">All Categories</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat}"
+                        th:text="${cat}"
+                        th:selected="${cat == selectedCategory}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status">
+                <option value="">Open</option>
+                <option th:each="st : ${statuses}"
+                        th:value="${st}"
+                        th:text="${st}"
+                        th:selected="${st == selectedStatus}"></option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-outline-cs w-100">Go</button>
+        </div>
+    </form>
+
+    <!-- Post grid -->
+    <div class="row g-4" th:if="${!posts.isEmpty()}">
+        <div class="col-lg-3 col-md-4 col-sm-6" th:each="post : ${posts}">
+            <a class="lf-card" th:href="@{'/lostfound/' + ${post.id}}">
+                <img th:if="${post.imageUrl}" class="lf-card-image" th:src="@{${post.imageUrl}}" alt="Item photo">
+                <div class="lf-card-image-placeholder" th:unless="${post.imageUrl}">No Photo</div>
+                <div class="lf-card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="lf-card-title" th:text="${post.title}"></div>
+                        <span class="badge"
+                              th:classappend="${post.postType.name() == 'LOST'} ? 'lf-badge-lost' : 'lf-badge-found'"
+                              th:text="${post.postType}"></span>
+                    </div>
+                    <div class="lf-card-meta" th:text="${post.category}"></div>
+                    <div class="lf-card-meta" th:text="${post.location}"></div>
+                    <span class="badge mt-1"
+                          th:classappend="${post.status.name() == 'OPEN'} ? 'lf-badge-open' : (${post.status.name() == 'CLAIMED'} ? 'lf-badge-claimed' : 'lf-badge-closed')"
+                          th:text="${post.status}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="lf-empty-state" th:if="${posts.isEmpty()}">
+        <h5>No posts found</h5>
+        <p>Try a different search term, category, or filter, or be the first to report an item.</p>
+        <a href="/lostfound/create" class="btn btn-cs-primary">Report an Item</a>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

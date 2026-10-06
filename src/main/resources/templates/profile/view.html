@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard" style="max-width: 720px;">
+
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+    <div class="cs-profile-card">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <img th:if="${profile.profilePictureUrl}" th:src="@{${profile.profilePictureUrl}}"
+                 class="cs-profile-avatar" alt="Profile picture">
+            <div th:unless="${profile.profilePictureUrl}" class="cs-profile-avatar cs-profile-avatar-placeholder"
+                 th:text="${#strings.substring(profile.fullName, 0, 1)}"></div>
+            <div>
+                <h3 class="mb-0" th:text="${profile.fullName}"></h3>
+                <p class="cs-card-meta mb-0" th:text="${profile.department} + ' &middot; Year ' + ${profile.yearOfStudy}"></p>
+                <p class="cs-card-meta mb-0" th:text="${profile.email}"></p>
+            </div>
+            <a href="/profile/edit" class="btn btn-cs-primary ms-auto">Edit Profile</a>
+        </div>
+
+        <hr>
+
+        <h6>About Me</h6>
+        <p th:if="${profile.aboutMe}" th:text="${profile.aboutMe}"></p>
+        <p th:unless="${profile.aboutMe}" class="cs-card-meta">No bio added yet.</p>
+
+        <h6>Skills</h6>
+        <div th:if="${profile.skills}">
+            <span class="badge cs-skill-badge" th:each="skill : ${#strings.arraySplit(profile.skills, ',')}"
+                  th:text="${#strings.trim(skill)}"></span>
+        </div>
+        <p th:unless="${profile.skills}" class="cs-card-meta">No skills added yet.</p>
+
+        <h6>Contact Details</h6>
+        <p th:if="${profile.contactDetails}" th:text="${profile.contactDetails}"></p>
+        <p th:unless="${profile.contactDetails}" class="cs-card-meta">No additional contact details added.</p>
+
+        <p class="cs-card-meta mb-0">
+            Member since <span th:text="${#temporals.format(profile.createdAt, 'dd MMM yyyy')}"></span>
+        </p>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

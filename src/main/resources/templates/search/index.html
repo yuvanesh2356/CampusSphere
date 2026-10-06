@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <h2 class="cs-dashboard-title">Search CampusSphere</h2>
+    <p class="cs-dashboard-subtitle">Search across Marketplace, Freelance Hub, Senior Guidance, and Lost &amp; Found at once.</p>
+
+    <form class="cs-search-toolbar row g-2 align-items-end" method="get" th:action="@{/search}">
+        <div class="col-md-7">
+            <label for="keyword" class="form-label">Keyword</label>
+            <input type="text" class="form-control" id="keyword" name="keyword" th:value="${keyword}"
+                   placeholder="Search titles and descriptions across every module">
+        </div>
+        <div class="col-md-3">
+            <label for="sort" class="form-label">Sort by</label>
+            <select class="form-select" id="sort" name="sort">
+                <option value="newest" th:selected="${sort == 'newest'}">Newest first</option>
+                <option value="oldest" th:selected="${sort == 'oldest'}">Oldest first</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-cs-primary w-100">Search</button>
+        </div>
+    </form>
+
+    <div th:if="${keyword != null and !keyword.isBlank()}">
+        <p class="cs-card-meta"><span th:text="${results.size()}"></span> result(s) for "<span th:text="${keyword}"></span>"</p>
+
+        <div th:if="${!results.isEmpty()}">
+            <div class="cs-search-result" th:each="result : ${results}">
+                <div class="d-flex justify-content-between align-items-start gap-2">
+                    <div>
+                        <span class="badge cs-badge-count mb-1" th:text="${result.module}"></span>
+                        <h6 class="mb-1"><a th:href="@{${result.url}}" th:text="${result.title}"></a></h6>
+                        <span class="cs-card-meta" th:text="${result.subtitle}"></span>
+                    </div>
+                    <span class="cs-card-meta flex-shrink-0" th:text="${#temporals.format(result.createdAt, 'dd MMM yyyy')}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cs-empty-state" th:if="${results.isEmpty()}">
+            <h5>No results found</h5>
+            <p>Try a different keyword.</p>
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

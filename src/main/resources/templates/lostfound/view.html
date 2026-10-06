@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title} + ' - CampusSphere Lost &amp; Found'">Post - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/lostfound.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <a href="/lostfound" class="btn btn-outline-cs btn-sm mb-3">&larr; Back to Lost &amp; Found</a>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <img th:if="${post.imageUrl}" class="lf-detail-image" th:src="@{${post.imageUrl}}" alt="Item photo">
+            <div class="lf-card-image-placeholder" style="height:420px;" th:unless="${post.imageUrl}">No Photo Provided</div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="lf-detail-panel">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <h3 th:text="${post.title}"></h3>
+                    <div class="d-flex gap-2">
+                        <span class="badge"
+                              th:classappend="${post.postType.name() == 'LOST'} ? 'lf-badge-lost' : 'lf-badge-found'"
+                              th:text="${post.postType}"></span>
+                        <span class="badge"
+                              th:classappend="${post.status.name() == 'OPEN'} ? 'lf-badge-open' : (${post.status.name() == 'CLAIMED'} ? 'lf-badge-claimed' : 'lf-badge-closed')"
+                              th:text="${post.status}"></span>
+                    </div>
+                </div>
+
+                <p class="lf-card-meta mb-3" th:text="${post.category}"></p>
+
+                <h6>Description</h6>
+                <p th:text="${post.description}" style="white-space: pre-wrap;"></p>
+
+                <div class="row">
+                    <div class="col-6">
+                        <h6>Location</h6>
+                        <p th:text="${post.location}"></p>
+                    </div>
+                    <div class="col-6">
+                        <h6 th:text="${post.postType.name() == 'LOST'} ? 'Date Lost' : 'Date Found'"></h6>
+                        <p th:text="${#temporals.format(post.dateLostOrFound, 'dd MMM yyyy')}"></p>
+                    </div>
+                </div>
+
+                <h6>Contact Information</h6>
+                <p th:text="${post.contactInformation}"></p>
+
+                <p class="lf-card-meta">
+                    Posted on <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy')}"></span>
+                </p>
+
+                <div class="lf-owner-box">
+                    <strong>Reported by</strong>
+                    <p class="mb-0" th:text="${post.ownerName}"></p>
+                    <p class="lf-card-meta mb-0" th:text="${post.ownerDepartment}"></p>
+                </div>
+
+                <!-- Owner-only actions -->
+                <div class="d-flex gap-2 mt-3" th:if="${post.ownedByCurrentUser}">
+                    <a class="btn btn-outline-cs" th:href="@{'/lostfound/' + ${post.id} + '/edit'}">Edit Post</a>
+                    <form th:action="@{'/lostfound/' + ${post.id} + '/delete'}" method="post"
+                          onsubmit="return confirm('Delete this post? This cannot be undone.');">
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+  Left sidebar navigation for every authenticated "app" page
+  (dashboard, marketplace, freelance, guidance, lostfound, profile,
+  notifications, admin, search). Public pages (index/login/register)
+  intentionally keep the original fragments/navbar.html top bar
+  instead - showing module links to a logged-out visitor wouldn't make
+  sense, so this fragment is deliberately not used there.
+
+  Included via th:replace="~{fragments/sidebar :: sidebar}" and paired
+  with fragments/topbar.html (mobile toggle + brand + notification
+  bell) inside the cs-app-shell layout wrapper - see style.css for the
+  flex layout that makes this a fixed left rail on desktop and a
+  slide-in drawer on mobile.
+
+  Deliberately does NOT attempt to highlight the "active" link based
+  on the current request URI - that would require a Thymeleaf request
+  expression utility object whose exact availability could not be
+  confirmed without running the application, and a static, always-
+  correct sidebar was judged more valuable than a "nice to have" that
+  might silently fail to resolve.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<aside th:fragment="sidebar" class="cs-sidebar" id="csSidebar">
+    <div class="cs-sidebar-brand">
+        <a href="/dashboard">CampusSphere</a>
+    </div>
+
+    <nav class="cs-sidebar-nav">
+        <a class="cs-sidebar-link" href="/dashboard">
+            <span class="cs-sidebar-icon">&#9737;</span> Dashboard
+        </a>
+        <a class="cs-sidebar-link" href="/marketplace">
+            <span class="cs-sidebar-icon">&#128722;</span> Marketplace
+        </a>
+        <a class="cs-sidebar-link" href="/freelance">
+            <span class="cs-sidebar-icon">&#128188;</span> Freelance Hub
+        </a>
+        <a class="cs-sidebar-link" href="/guidance">
+            <span class="cs-sidebar-icon">&#127891;</span> Senior Guidance
+        </a>
+        <a class="cs-sidebar-link" href="/lostfound">
+            <span class="cs-sidebar-icon">&#128269;</span> Lost &amp; Found
+        </a>
+        <a class="cs-sidebar-link" href="/global">
+            <span class="cs-sidebar-icon">&#127760;</span> Global
+        </a>
+        <a class="cs-sidebar-link" href="/search">
+            <span class="cs-sidebar-icon">&#128270;</span> Search
+        </a>
+
+        <div class="cs-sidebar-divider"></div>
+
+        <a class="cs-sidebar-link" href="/profile">
+            <span class="cs-sidebar-icon">&#128100;</span> My Profile
+        </a>
+        <a class="cs-sidebar-link" href="/notifications">
+            <span class="cs-sidebar-icon">&#128276;</span> Notifications
+            <span th:if="${unreadNotificationCount != null and unreadNotificationCount > 0}"
+                  class="badge cs-badge-live cs-sidebar-badge" th:text="${unreadNotificationCount}"></span>
+        </a>
+
+        <div class="cs-sidebar-divider" sec:authorize="hasRole('ADMIN')"></div>
+
+        <a class="cs-sidebar-link" sec:authorize="hasRole('ADMIN')" href="/admin">
+            <span class="cs-sidebar-icon">&#9881;</span> Admin
+        </a>
+
+        <div class="cs-sidebar-divider"></div>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="cs-sidebar-link cs-sidebar-logout">
+                <span class="cs-sidebar-icon">&#8618;</span> Logout
+            </button>
+        </form>
+    </nav>
+</aside>
+</body>
+</html>

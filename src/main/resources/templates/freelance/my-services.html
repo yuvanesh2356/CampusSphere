@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Services - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/freelance.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h2 class="cs-dashboard-title mb-0">My Services</h2>
+        <div class="d-flex gap-2">
+            <a href="/freelance" class="btn btn-outline-cs">Browse Freelance Hub</a>
+            <a href="/freelance/create" class="btn btn-cs-primary">+ Post a Service</a>
+        </div>
+    </div>
+
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <div class="row g-4" th:if="${!services.isEmpty()}">
+        <div class="col-lg-3 col-md-4 col-sm-6" th:each="service : ${services}">
+            <div class="frl-card" style="cursor: default;">
+                <a th:href="@{'/freelance/' + ${service.id}}" style="text-decoration:none; color:inherit;">
+                    <img th:if="${service.sampleImageUrl}" class="frl-card-image" th:src="@{${service.sampleImageUrl}}" alt="Service sample image">
+                    <div class="frl-card-image-placeholder" th:unless="${service.sampleImageUrl}">No Sample Image</div>
+                    <div class="frl-card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="frl-card-title" th:text="${service.title}"></div>
+                            <span class="badge"
+                                  th:classappend="${service.status.name() == 'AVAILABLE'} ? 'frl-badge-available' : (${service.status.name() == 'BUSY'} ? 'frl-badge-busy' : 'frl-badge-not-accepting')"
+                                  th:text="${service.status}"></span>
+                        </div>
+                        <div class="frl-card-price"
+                             th:text="(${service.priceType.name() == 'STARTING_FROM'} ? 'From ₹' : '₹') + ${service.price}"></div>
+                    </div>
+                </a>
+                <div class="frl-card-body pt-0 d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-cs w-100" th:href="@{'/freelance/' + ${service.id} + '/edit'}">Edit</a>
+                    <form th:action="@{'/freelance/' + ${service.id} + '/delete'}" method="post" class="w-100"
+                          onsubmit="return confirm('Delete this service? This cannot be undone.');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger w-100">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="frl-empty-state" th:if="${services.isEmpty()}">
+        <h5>You haven't posted any services yet</h5>
+        <p>Post your first service to start offering help on CampusSphere.</p>
+        <a href="/freelance/create" class="btn btn-cs-primary">Post a Service</a>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${opportunity.title} + ' - CampusSphere Global Opportunities'">Opportunity - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/opportunity.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <a href="/global" class="btn btn-outline-cs btn-sm mb-3">&larr; Back to Global Opportunities</a>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <img th:if="${opportunity.bannerImageUrl}" class="opp-detail-banner" th:src="@{${opportunity.bannerImageUrl}}" alt="Opportunity banner">
+            <div class="opp-detail-banner-placeholder" th:unless="${opportunity.bannerImageUrl}">&#127760;</div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="opp-detail-panel">
+                <div class="opp-card-org" th:text="${opportunity.organization}"></div>
+                <h3 th:text="${opportunity.title}"></h3>
+
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <span class="badge opp-badge-mode" th:text="${opportunity.category}"
+                          style="background-color:#eef2f7;color:#234769;"></span>
+                    <span class="badge opp-badge-mode"
+                          th:classappend="${opportunity.mode.name() == 'ONLINE'} ? 'opp-badge-online' : (${opportunity.mode.name() == 'OFFLINE'} ? 'opp-badge-offline' : 'opp-badge-hybrid')"
+                          th:text="${opportunity.mode}"></span>
+                    <span class="badge opp-badge-mode"
+                          th:classappend="${opportunity.status.name() == 'UPCOMING'} ? 'opp-badge-upcoming' : (${opportunity.status.name() == 'OPEN'} ? 'opp-badge-open' : 'opp-badge-closed')"
+                          th:text="${opportunity.status}"></span>
+                </div>
+
+                <dl class="opp-detail-facts row mb-0">
+                    <div class="col-6">
+                        <dt>Event Date</dt>
+                        <dd th:text="${#temporals.format(opportunity.eventDate, 'dd MMM yyyy')}"></dd>
+                    </div>
+                    <div class="col-6">
+                        <dt>Registration Deadline</dt>
+                        <dd th:text="${#temporals.format(opportunity.registrationDeadline, 'dd MMM yyyy')}"></dd>
+                    </div>
+                    <div class="col-6" th:if="${opportunity.location}">
+                        <dt>Location</dt>
+                        <dd th:text="${opportunity.location}"></dd>
+                    </div>
+                    <div class="col-6" th:if="${opportunity.prizeBenefits}">
+                        <dt>Prize / Benefits</dt>
+                        <dd th:text="${opportunity.prizeBenefits}"></dd>
+                    </div>
+                </dl>
+
+                <div class="d-flex gap-2 mt-3">
+                    <a th:href="@{${opportunity.registrationUrl}}" target="_blank" rel="noopener" class="btn btn-cs-primary flex-grow-1">
+                        Open Official Registration &#8599;
+                    </a>
+                    <form th:action="@{'/global/' + ${opportunity.id} + '/bookmark'}" method="post">
+                        <input type="hidden" name="redirectTo" th:value="'/global/' + ${opportunity.id}">
+                        <button type="submit" class="opp-bookmark-btn" th:classappend="${opportunity.bookmarkedByCurrentUser} ? 'opp-bookmarked'"
+                                th:title="${opportunity.bookmarkedByCurrentUser} ? 'Remove bookmark' : 'Save opportunity'"
+                                th:text="${opportunity.bookmarkedByCurrentUser} ? '★' : '☆'"></button>
+                    </form>
+                </div>
+
+                <div class="d-flex gap-2 mt-2" sec:authorize="hasRole('ADMIN')">
+                    <a class="btn btn-sm btn-outline-cs" th:href="@{'/global/' + ${opportunity.id} + '/edit'}">Edit</a>
+                    <form th:action="@{'/global/' + ${opportunity.id} + '/delete'}" method="post"
+                          onsubmit="return confirm('Remove this opportunity? This cannot be undone.');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="opp-detail-panel mt-4">
+        <h6>About this Opportunity</h6>
+        <p th:text="${opportunity.description}" style="white-space: pre-wrap;"></p>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

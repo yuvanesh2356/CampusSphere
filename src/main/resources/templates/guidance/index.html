@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Guidance Hub - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/guidance.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h2 class="cs-dashboard-title mb-0">Senior Guidance Hub</h2>
+        <a href="/guidance/create" class="btn btn-cs-primary">+ Share Guidance</a>
+    </div>
+    <p class="cs-dashboard-subtitle">Internship, placement, subject, hackathon, and career guidance shared by seniors.</p>
+
+    <!-- Flash messages from create/edit/delete redirects -->
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Search + category filter -->
+    <form class="gdn-toolbar row g-2 align-items-end" method="get" th:action="@{/guidance}">
+        <div class="col-md-6">
+            <label for="keyword" class="form-label">Search</label>
+            <input type="text" class="form-control" id="keyword" name="keyword"
+                   placeholder="Search by title or description" th:value="${keyword}">
+        </div>
+        <div class="col-md-4">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">All Categories</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat}"
+                        th:text="${cat}"
+                        th:selected="${cat == selectedCategory}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-cs w-100">Apply</button>
+        </div>
+    </form>
+
+    <!-- Guidance post grid -->
+    <div class="row g-4" th:if="${!posts.isEmpty()}">
+        <div class="col-lg-3 col-md-4 col-sm-6" th:each="post : ${posts}">
+            <a class="gdn-card" th:href="@{'/guidance/' + ${post.id}}">
+                <div class="gdn-card-body">
+                    <div class="gdn-card-title" th:text="${post.title}"></div>
+                    <div class="gdn-card-meta" th:text="${post.category}"></div>
+                    <div class="gdn-card-meta" th:if="${post.relevantYear != null or post.relevantDepartment != null}">
+                        <span th:if="${post.relevantYear != null}" th:text="'Year ' + ${post.relevantYear}"></span>
+                        <span th:if="${post.relevantYear != null and post.relevantDepartment != null}"> &middot; </span>
+                        <span th:if="${post.relevantDepartment != null}" th:text="${post.relevantDepartment}"></span>
+                    </div>
+                    <div class="gdn-card-author" th:text="'By ' + ${post.authorName}"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="gdn-empty-state" th:if="${posts.isEmpty()}">
+        <h5>No guidance posts found</h5>
+        <p>Try a different search term or category, or be the first to share guidance.</p>
+        <a href="/guidance/create" class="btn btn-cs-primary">Share the first guidance post</a>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

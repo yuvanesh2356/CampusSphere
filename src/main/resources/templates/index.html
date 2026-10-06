@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusSphere - Student Resource Exchange &amp; Collaboration Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main>
+    <section class="cs-hero">
+        <div class="container text-center">
+            <h1 class="cs-hero-title">One platform. Every campus need.</h1>
+            <p class="cs-hero-subtitle">
+                Buy &amp; sell academic resources, find freelance help, get senior guidance,
+                and report lost &amp; found items &mdash; all in one trusted space, exclusively
+                for verified students.
+            </p>
+            <div class="cs-hero-actions">
+                <a href="/register" class="btn btn-cs-primary btn-lg">Get Started</a>
+                <a href="/login" class="btn btn-outline-cs btn-lg">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container cs-features">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="cs-feature-card">
+                    <h3>Marketplace</h3>
+                    <p>Buy and sell books, electronics, and academic materials with fellow students.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cs-feature-card">
+                    <h3>Freelance Hub</h3>
+                    <p>Find or offer help with records, PPTs, posters, resumes, coding, and editing.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cs-feature-card">
+                    <h3>Senior Guidance</h3>
+                    <p>Get placement, internship, subject, and hackathon guidance from seniors.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cs-feature-card">
+                    <h3>Lost &amp; Found</h3>
+                    <p>Report and reclaim lost belongings through a verified, trackable process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

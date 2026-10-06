@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+  Slim top bar for authenticated app pages, paired with
+  fragments/sidebar.html. Holds only what doesn't belong in the
+  sidebar itself: the mobile hamburger toggle (the sidebar becomes an
+  off-canvas drawer below the md breakpoint - see style.css and
+  static/js/app.js for the toggle behavior) and a quick-access
+  notification bell.
+
+  The toggle's JavaScript deliberately lives in static/js/app.js,
+  included once per page via a normal <script> tag, rather than as an
+  inline <script> in this fragment - a <script> sibling to the
+  th:fragment element here would never actually be included when this
+  fragment is pulled in via th:replace, since only the fragment-tagged
+  element itself is extracted, not its siblings.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="topbar" class="cs-topbar">
+    <button class="cs-sidebar-toggle d-md-none" type="button" id="csSidebarToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+    </button>
+    <a class="cs-topbar-brand d-md-none" href="/dashboard">CampusSphere</a>
+    <a class="cs-topbar-bell ms-auto" href="/notifications" aria-label="Notifications">
+        &#128276;
+        <span th:if="${unreadNotificationCount != null and unreadNotificationCount > 0}"
+              class="badge cs-badge-live cs-topbar-badge" th:text="${unreadNotificationCount}"></span>
+    </a>
+</header>
+</body>
+</html>

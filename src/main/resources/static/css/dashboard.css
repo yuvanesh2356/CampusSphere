@@ -1,0 +1,883 @@
+/* ============================================================
+   CampusSphere Dashboard
+   Premium animated dashboard layer
+   ============================================================ */
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.dashboard-hero {
+    position: relative;
+    width: 100%;
+    min-height: 350px;
+    border-radius: 22px;
+    overflow: hidden;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+    background: #234769;
+}
+
+
+/* ============================================================
+   SLIDES
+   ============================================================ */
+
+.dashboard-slide {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 2.7rem 4rem;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateX(25px);
+
+    transition:
+        opacity 0.65s ease,
+        transform 0.65s ease,
+        visibility 0.65s ease;
+
+    overflow: hidden;
+}
+
+.dashboard-slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    z-index: 2;
+}
+
+
+/* ============================================================
+   DIFFERENT SLIDE BACKGROUNDS
+   ============================================================ */
+
+.dashboard-slide-marketplace {
+    background:
+        radial-gradient(circle at 85% 30%, rgba(63, 167, 150, 0.28), transparent 32%),
+        linear-gradient(120deg, #1f4264, #2f6b89);
+}
+
+.dashboard-slide-freelance {
+    background:
+        radial-gradient(circle at 82% 25%, rgba(170, 135, 220, 0.3), transparent 34%),
+        linear-gradient(120deg, #403b70, #665d9c);
+}
+
+.dashboard-slide-guidance {
+    background:
+        radial-gradient(circle at 84% 25%, rgba(89, 190, 173, 0.28), transparent 35%),
+        linear-gradient(120deg, #245b62, #3f8d86);
+}
+
+.dashboard-slide-global {
+    background:
+        radial-gradient(circle at 85% 25%, rgba(70, 185, 240, 0.3), transparent 35%),
+        linear-gradient(120deg, #214e79, #287d9b);
+}
+
+
+/* ============================================================
+   HERO TEXT
+   ============================================================ */
+
+.dashboard-slide-content {
+    width: 54%;
+    max-width: 620px;
+    color: #ffffff;
+    position: relative;
+    z-index: 5;
+
+    animation: heroTextIn 0.8s ease both;
+}
+
+.dashboard-slide:not(.active) .dashboard-slide-content {
+    animation: none;
+}
+
+.dashboard-slide.active .dashboard-slide-content {
+    animation: heroTextIn 0.8s ease both;
+}
+
+
+@keyframes heroTextIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(-22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+.dashboard-slide-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.42rem 0.75rem;
+
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(8px);
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+}
+
+
+.dashboard-slide h1 {
+    margin: 1rem 0 0.75rem;
+
+    font-size: clamp(2rem, 4vw, 3.15rem);
+
+    line-height: 1.08;
+
+    font-weight: 500;
+
+    letter-spacing: -0.035em;
+}
+
+
+.dashboard-slide h1 strong {
+    font-weight: 800;
+}
+
+
+.dashboard-slide p {
+    max-width: 520px;
+
+    margin-bottom: 1.45rem;
+
+    color: rgba(255,255,255,0.86);
+
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+
+.dashboard-hero-btn {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.72rem 1.15rem;
+
+    background: #ffffff;
+    color: #234769;
+
+    border-radius: 9px;
+
+    font-size: 0.88rem;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow: 0 7px 18px rgba(0,0,0,0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.dashboard-hero-btn:hover {
+    color: #234769;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+
+/* ============================================================
+   VISUAL SIDE
+   ============================================================ */
+
+.dashboard-visual {
+    position: relative;
+
+    width: 40%;
+    height: 285px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 3;
+}
+
+
+.hero-main-icon {
+    width: 125px;
+    height: 125px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 32px;
+
+    background: rgba(255,255,255,0.16);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    backdrop-filter: blur(14px);
+
+    font-size: 4.2rem;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+
+    animation: heroFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes heroFloat {
+
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+
+/* ============================================================
+   FLOATING OBJECTS
+   ============================================================ */
+
+.floating-object {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 62px;
+    height: 62px;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.14);
+
+    border: 1px solid rgba(255,255,255,0.22);
+
+    backdrop-filter: blur(10px);
+
+    color: #ffffff;
+
+    font-size: 1.7rem;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+
+    animation: objectFloat 4.5s ease-in-out infinite;
+}
+
+
+@keyframes objectFloat {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+}
+
+
+/* Individual positions */
+
+.object-book {
+    top: 15px;
+    left: 5%;
+    animation-delay: 0.2s;
+}
+
+.object-calculator {
+    top: 55px;
+    right: 3%;
+    animation-delay: 0.8s;
+}
+
+.object-laptop {
+    bottom: 20px;
+    left: 15%;
+    animation-delay: 1.2s;
+}
+
+
+.object-ppt {
+    top: 20px;
+    left: 5%;
+    animation-delay: 0.4s;
+}
+
+.object-resume {
+    top: 70px;
+    right: 2%;
+    animation-delay: 1s;
+}
+
+.object-video {
+    bottom: 15px;
+    left: 16%;
+    animation-delay: 1.5s;
+}
+
+
+.object-internship {
+    top: 20px;
+    left: 4%;
+    animation-delay: 0.3s;
+}
+
+.object-placement {
+    top: 65px;
+    right: 3%;
+    animation-delay: 0.9s;
+}
+
+.object-hackathon {
+    bottom: 15px;
+    left: 17%;
+    animation-delay: 1.4s;
+}
+
+
+.object-globe {
+    top: 15px;
+    left: 4%;
+    animation-delay: 0.2s;
+}
+
+.object-code {
+    top: 70px;
+    right: 2%;
+    animation-delay: 0.9s;
+}
+
+.object-trophy {
+    bottom: 18px;
+    left: 17%;
+    animation-delay: 1.4s;
+}
+
+
+/* ============================================================
+   VISUAL MINI CARDS
+   ============================================================ */
+
+.visual-card {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 0.65rem 0.8rem;
+
+    min-width: 125px;
+
+    background: rgba(255,255,255,0.92);
+
+    border-radius: 10px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+    animation: cardFloat 5s ease-in-out infinite;
+}
+
+
+.visual-card strong {
+    color: #234769;
+    font-size: 0.76rem;
+}
+
+
+.visual-card span {
+    color: #6b7280;
+    font-size: 0.65rem;
+}
+
+
+.visual-card-one {
+    right: 10px;
+    bottom: 25px;
+}
+
+
+.visual-card-two {
+    left: 8px;
+    bottom: 65px;
+    animation-delay: 1s;
+}
+
+
+@keyframes cardFloat {
+
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+
+/* ============================================================
+   HERO CONTROLS
+   ============================================================ */
+
+.hero-arrow {
+    position: absolute;
+
+    top: 50%;
+    z-index: 10;
+
+    width: 38px;
+    height: 38px;
+
+    transform: translateY(-50%);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.13);
+
+    color: #ffffff;
+
+    font-size: 1.7rem;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    backdrop-filter: blur(8px);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.hero-arrow:hover {
+    background: rgba(255,255,255,0.25);
+
+    transform:
+        translateY(-50%)
+        scale(1.05);
+}
+
+
+.hero-arrow-prev {
+    left: 16px;
+}
+
+
+.hero-arrow-next {
+    right: 16px;
+}
+
+
+/* ============================================================
+   DOTS
+   ============================================================ */
+
+.hero-dots {
+    position: absolute;
+
+    left: 50%;
+    bottom: 17px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+    gap: 7px;
+}
+
+
+.hero-dot {
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.4);
+
+    transition:
+        width 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.hero-dot.active {
+    width: 22px;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   WELCOME
+   ============================================================ */
+
+.dashboard-welcome {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1.1rem;
+}
+
+
+.dashboard-welcome .cs-dashboard-title {
+    margin-bottom: 0.25rem;
+}
+
+
+.dashboard-welcome .cs-dashboard-subtitle {
+    margin-bottom: 0;
+}
+
+
+.dashboard-welcome-pill {
+    padding: 0.55rem 0.85rem;
+
+    background: #eef7f5;
+
+    color: #287d70;
+
+    border: 1px solid #d4ebe6;
+
+    border-radius: 999px;
+
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   STATS
+   ============================================================ */
+
+.dashboard-stats {
+    margin-bottom: 1.2rem;
+}
+
+
+.dashboard-stat-card {
+    position: relative;
+
+    min-height: 150px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.dashboard-stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    right: -45px;
+    bottom: -50px;
+
+    border-radius: 50%;
+
+    background: rgba(63,167,150,0.08);
+}
+
+
+.dashboard-stat-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 12px 28px rgba(15,23,42,0.12);
+}
+
+
+.stat-icon {
+    font-size: 1.35rem;
+
+    margin-bottom: 0.2rem;
+}
+
+
+.dashboard-counter {
+    transition: transform 0.25s ease;
+}
+
+
+/* ============================================================
+   SECTION HEADINGS
+   ============================================================ */
+
+.dashboard-section-title {
+    color: var(--cs-primary-dark);
+
+    font-weight: 700;
+
+    margin-top: 1.7rem;
+    margin-bottom: 1rem;
+}
+
+
+/* ============================================================
+   MODULE CARDS
+   ============================================================ */
+
+.dashboard-module-card {
+    position: relative;
+
+    min-height: 155px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.dashboard-module-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 12px 28px rgba(15,23,42,0.12);
+}
+
+
+.module-icon {
+    display: block;
+
+    font-size: 1.7rem;
+
+    margin-bottom: 0.55rem;
+
+    transition:
+        transform 0.3s ease;
+}
+
+
+.dashboard-module-card:hover .module-icon {
+    transform:
+        scale(1.15)
+        rotate(-3deg);
+}
+
+
+.dashboard-module-card h4 {
+    margin-bottom: 0.65rem;
+}
+
+
+/* ============================================================
+   RECENT ACTIVITY
+   ============================================================ */
+
+.dashboard-recent-card {
+    min-height: 190px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.dashboard-recent-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 25px rgba(15,23,42,0.1);
+}
+
+
+.recent-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    margin-bottom: 0.7rem;
+}
+
+
+.recent-heading span {
+    font-size: 1.15rem;
+}
+
+
+.recent-heading h6 {
+    margin-bottom: 0;
+
+    color: var(--cs-primary-dark);
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+
+    .dashboard-slide {
+        padding: 2rem 2.5rem;
+    }
+
+    .dashboard-slide-content {
+        width: 58%;
+    }
+
+    .dashboard-visual {
+        width: 38%;
+    }
+
+    .dashboard-slide h1 {
+        font-size: 2.25rem;
+    }
+
+}
+
+
+@media (max-width: 767.98px) {
+
+    .dashboard-hero {
+        min-height: 470px;
+    }
+
+    .dashboard-slide {
+        padding: 2rem 1.4rem 3rem;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        justify-content: center;
+    }
+
+    .dashboard-slide-content {
+        width: 100%;
+        max-width: none;
+    }
+
+    .dashboard-slide h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard-slide p {
+        font-size: 0.9rem;
+    }
+
+    .dashboard-visual {
+        width: 100%;
+        height: 145px;
+
+        margin-top: 0.5rem;
+    }
+
+    .hero-main-icon {
+        width: 80px;
+        height: 80px;
+
+        border-radius: 20px;
+
+        font-size: 2.6rem;
+    }
+
+    .floating-object {
+        width: 45px;
+        height: 45px;
+
+        border-radius: 13px;
+
+        font-size: 1.25rem;
+    }
+
+    .visual-card {
+        display: none;
+    }
+
+    .hero-arrow {
+        width: 32px;
+        height: 32px;
+
+        font-size: 1.4rem;
+    }
+
+    .dashboard-welcome {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.7rem;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dashboard-slide,
+    .dashboard-slide-content,
+    .hero-main-icon,
+    .floating-object,
+    .visual-card,
+    .dashboard-module-card,
+    .dashboard-stat-card,
+    .dashboard-recent-card {
+        animation: none !important;
+
+        transition: none !important;
+    }
+
+}

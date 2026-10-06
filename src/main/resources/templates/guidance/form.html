@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${postId != null} ? 'Edit Guidance - CampusSphere' : 'Share Guidance - CampusSphere'">Guidance Form - CampusSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/guidance.css}">
+</head>
+<body>
+
+<div class="cs-app-shell">
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="cs-app-main">
+<div th:replace="~{fragments/topbar :: topbar}"></div>
+
+<main class="cs-content-area cs-dashboard" style="max-width: 720px;">
+
+    <h2 class="cs-dashboard-title" th:text="${postId != null} ? 'Edit Guidance Post' : 'Share Guidance'"></h2>
+
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <div class="gdn-form-card mt-3">
+        <!--
+          Same form posts to two different URLs depending on mode.
+          enctype=multipart/form-data is required since this form
+          carries an optional attachment alongside the text fields.
+        -->
+        <form th:action="${postId != null} ? @{'/guidance/' + ${postId} + '/edit'} : @{/guidance/create}"
+              th:object="${guidanceForm}" method="post" enctype="multipart/form-data" novalidate>
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}"
+                       placeholder="e.g. How I Prepared for Product-Based Company Placements"
+                       th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Guidance Category</label>
+                <select class="form-select" id="category" th:field="*{category}"
+                        th:classappend="${#fields.hasErrors('category')} ? 'is-invalid'">
+                    <option value="" disabled>Select a category</option>
+                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="6" th:field="*{description}"
+                          placeholder="Share your experience, tips, timeline, and resources that helped you"
+                          th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="relevantYear" class="form-label">Most Relevant Year (optional)</label>
+                    <select class="form-select" id="relevantYear" th:field="*{relevantYear}"
+                            th:classappend="${#fields.hasErrors('relevantYear')} ? 'is-invalid'">
+                        <option value="">Applies to all years</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('relevantYear')}" th:errors="*{relevantYear}"></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="relevantDepartment" class="form-label">Most Relevant Department (optional)</label>
+                    <input type="text" class="form-control" id="relevantDepartment" th:field="*{relevantDepartment}"
+                           placeholder="e.g. CSE (leave blank if applies to all)"
+                           th:classappend="${#fields.hasErrors('relevantDepartment')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('relevantDepartment')}" th:errors="*{relevantDepartment}"></div>
+                </div>
+            </div>
+
+            <!-- Visibility status is only editable when editing an existing post -->
+            <div class="mb-3" th:if="${postId != null}">
+                <label for="status" class="form-label">Visibility</label>
+                <select class="form-select" id="status" th:field="*{status}">
+                    <option th:each="st : ${statuses}" th:value="${st}" th:text="${st}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="attachment" class="form-label">
+                    <span th:text="${postId != null} ? 'Replace Attachment (optional)' : 'Attachment (optional)'"></span>
+                </label>
+                <input type="file" class="form-control" id="attachment" name="attachment" accept="image/png, image/jpeg">
+                <div class="form-text">JPG or PNG only, up to 5MB.</div>
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-cs-primary"
+                        th:text="${postId != null} ? 'Save Changes' : 'Share Guidance'"></button>
+                <a th:href="${postId != null} ? @{'/guidance/' + ${postId}} : @{/guidance}"
+                   class="btn btn-outline-cs">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

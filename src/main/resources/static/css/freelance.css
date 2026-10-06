@@ -1,0 +1,136 @@
+/* =====================================================
+   CampusSphere - Freelance Hub Stylesheet (Phase 3)
+   Builds on the same CSS variables defined in style.css that
+   marketplace.css uses, so the Freelance Hub automatically shares
+   Marketplace's visual language (color palette, spacing, card style)
+   without duplicating marketplace.css itself, which stays untouched
+   from Phase 2. Class names use an "frl-" prefix (mirroring
+   marketplace.css's "mkt-" prefix) to keep the two modules' styles
+   independently editable without collisions.
+   ===================================================== */
+
+/* ---------- Toolbar (search + category filter) ---------- */
+.frl-toolbar {
+    background-color: var(--cs-surface);
+    border: 1px solid var(--cs-border);
+    border-radius: var(--cs-radius);
+    padding: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+/* ---------- Service grid cards ---------- */
+.frl-card {
+    background-color: var(--cs-surface);
+    border: 1px solid var(--cs-border);
+    border-radius: var(--cs-radius);
+    box-shadow: var(--cs-shadow);
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.frl-card:hover {
+    transform: translateY(-3px);
+    color: inherit;
+}
+
+.frl-card-image {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    background-color: #eef2f7;
+}
+
+.frl-card-image-placeholder {
+    width: 100%;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eef2f7;
+    color: var(--cs-text-muted);
+    font-size: 0.85rem;
+}
+
+.frl-card-body {
+    padding: 1rem;
+}
+
+.frl-card-title {
+    font-weight: 600;
+    color: var(--cs-primary-dark);
+    margin-bottom: 0.3rem;
+    font-size: 1.02rem;
+}
+
+.frl-card-price {
+    font-weight: 700;
+    color: var(--cs-accent);
+    font-size: 1.05rem;
+}
+
+.frl-card-meta {
+    font-size: 0.82rem;
+    color: var(--cs-text-muted);
+}
+
+/* ---------- Availability status badges ---------- */
+.frl-badge-available {
+    background-color: var(--cs-accent);
+    color: #fff;
+}
+
+.frl-badge-busy {
+    background-color: #e8a33d;
+    color: #fff;
+}
+
+.frl-badge-not-accepting {
+    background-color: #9ca3af;
+    color: #fff;
+}
+
+/* ---------- Detail page ---------- */
+.frl-detail-image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: var(--cs-radius);
+    border: 1px solid var(--cs-border);
+    background-color: #eef2f7;
+}
+
+.frl-detail-panel {
+    background-color: var(--cs-surface);
+    border: 1px solid var(--cs-border);
+    border-radius: var(--cs-radius);
+    box-shadow: var(--cs-shadow);
+    padding: 1.5rem;
+}
+
+.frl-seller-box {
+    background-color: var(--cs-bg);
+    border: 1px solid var(--cs-border);
+    border-radius: var(--cs-radius);
+    padding: 1rem;
+    margin-top: 1.2rem;
+}
+
+/* ---------- Form pages (create/edit) ---------- */
+.frl-form-card {
+    background-color: var(--cs-surface);
+    border: 1px solid var(--cs-border);
+    border-radius: var(--cs-radius);
+    box-shadow: var(--cs-shadow);
+    padding: 2rem;
+}
+
+/* ---------- Empty state ---------- */
+.frl-empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--cs-text-muted);
+}

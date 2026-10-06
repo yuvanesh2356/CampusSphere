@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - CampusSphere</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+
+<div class="cs-app-shell">
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="cs-app-main">
+
+        <!-- Topbar -->
+        <div th:replace="~{fragments/topbar :: topbar}"></div>
+
+        <main class="cs-content-area cs-dashboard">
+
+            <!-- =====================================================
+                 HERO CAROUSEL
+                 ===================================================== -->
+
+            <section class="dashboard-hero">
+
+                <!-- Slide 1 -->
+                <div class="dashboard-slide dashboard-slide-marketplace active">
+
+                    <div class="dashboard-slide-content">
+
+                        <span class="dashboard-slide-badge">
+                            🛒 STUDENT MARKETPLACE
+                        </span>
+
+                        <h1>
+                            Buy. Sell.<br>
+                            <strong>Connect.</strong>
+                        </h1>
+
+                        <p>
+                            Find books, electronics, academic materials
+                            and useful student essentials from your campus.
+                        </p>
+
+                        <a href="/marketplace"
+                           class="dashboard-hero-btn">
+                            Explore Marketplace →
+                        </a>
+
+                    </div>
+
+                    <div class="dashboard-visual marketplace-visual">
+
+                        <div class="floating-object object-book">
+                            📚
+                        </div>
+
+                        <div class="floating-object object-calculator">
+                            🧮
+                        </div>
+
+                        <div class="floating-object object-laptop">
+                            💻
+                        </div>
+
+                        <div class="hero-main-icon">
+                            🛍️
+                        </div>
+
+                        <div class="visual-card visual-card-one">
+                            <strong>Books</strong>
+                            <span>Student essentials</span>
+                        </div>
+
+                        <div class="visual-card visual-card-two">
+                            <strong>Electronics</strong>
+                            <span>Buy &amp; Sell</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Slide 2 -->
+                <div class="dashboard-slide dashboard-slide-freelance">
+
+                    <div class="dashboard-slide-content">
+
+                        <span class="dashboard-slide-badge">
+                            💼 FREELANCE HUB
+                        </span>
+
+                        <h1>
+                            Turn Your Skills<br>
+                            <strong>Into Opportunities.</strong>
+                        </h1>
+
+                        <p>
+                            Offer your skills, discover student services
+                            and collaborate with talented students.
+                        </p>
+
+                        <a href="/freelance"
+                           class="dashboard-hero-btn">
+                            Explore Freelance Hub →
+                        </a>
+
+                    </div>
+
+                    <div class="dashboard-visual freelance-visual">
+
+                        <div class="floating-object object-ppt">
+                            📊
+                        </div>
+
+                        <div class="floating-object object-resume">
+                            📄
+                        </div>
+
+                        <div class="floating-object object-video">
+                            🎬
+                        </div>
+
+                        <div class="hero-main-icon">
+                            💼
+                        </div>
+
+                        <div class="visual-card visual-card-one">
+                            <strong>PPT Design</strong>
+                            <span>Creative services</span>
+                        </div>
+
+                        <div class="visual-card visual-card-two">
+                            <strong>Content Writing</strong>
+                            <span>Student services</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Slide 3 -->
+                <div class="dashboard-slide dashboard-slide-guidance">
+
+                    <div class="dashboard-slide-content">
+
+                        <span class="dashboard-slide-badge">
+                            🎓 SENIOR GUIDANCE
+                        </span>
+
+                        <h1>
+                            Learn From<br>
+                            <strong>Those Ahead.</strong>
+                        </h1>
+
+                        <p>
+                            Get practical guidance for internships,
+                            placements, projects, subjects and hackathons.
+                        </p>
+
+                        <a href="/guidance"
+                           class="dashboard-hero-btn">
+                            Explore Guidance →
+                        </a>
+
+                    </div>
+
+                    <div class="dashboard-visual guidance-visual">
+
+                        <div class="floating-object object-internship">
+                            💼
+                        </div>
+
+                        <div class="floating-object object-placement">
+                            🎯
+                        </div>
+
+                        <div class="floating-object object-hackathon">
+                            🏆
+                        </div>
+
+                        <div class="hero-main-icon">
+                            🎓
+                        </div>
+
+                        <div class="visual-card visual-card-one">
+                            <strong>Internships</strong>
+                            <span>Learn &amp; prepare</span>
+                        </div>
+
+                        <div class="visual-card visual-card-two">
+                            <strong>Hackathons</strong>
+                            <span>Build &amp; compete</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Slide 4 -->
+                <div class="dashboard-slide dashboard-slide-global">
+
+                    <div class="dashboard-slide-content">
+
+                        <span class="dashboard-slide-badge">
+                            🌍 GLOBAL OPPORTUNITIES
+                        </span>
+
+                        <h1>
+                            Discover<br>
+                            <strong>What's Next.</strong>
+                        </h1>
+
+                        <p>
+                            Explore hackathons, coding competitions,
+                            workshops and global student opportunities.
+                        </p>
+
+                        <a href="/global"
+                           class="dashboard-hero-btn">
+                            Explore Global →
+                        </a>
+
+                    </div>
+
+                    <div class="dashboard-visual global-visual">
+
+                        <div class="floating-object object-globe">
+                            🌍
+                        </div>
+
+                        <div class="floating-object object-code">
+                            &lt;/&gt;
+                        </div>
+
+                        <div class="floating-object object-trophy">
+                            🏆
+                        </div>
+
+                        <div class="hero-main-icon">
+                            🌐
+                        </div>
+
+                        <div class="visual-card visual-card-one">
+                            <strong>Hackathons</strong>
+                            <span>Discover &amp; compete</span>
+                        </div>
+
+                        <div class="visual-card visual-card-two">
+                            <strong>Workshops</strong>
+                            <span>Learn something new</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Controls -->
+
+                <button class="hero-arrow hero-arrow-prev"
+                        type="button"
+                        aria-label="Previous slide">
+                    ‹
+                </button>
+
+                <button class="hero-arrow hero-arrow-next"
+                        type="button"
+                        aria-label="Next slide">
+                    ›
+                </button>
+
+
+                <div class="hero-dots">
+
+                    <button class="hero-dot active"
+                            type="button"
+                            aria-label="Marketplace"></button>
+
+                    <button class="hero-dot"
+                            type="button"
+                            aria-label="Freelance"></button>
+
+                    <button class="hero-dot"
+                            type="button"
+                            aria-label="Guidance"></button>
+
+                    <button class="hero-dot"
+                            type="button"
+                            aria-label="Global"></button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =====================================================
+                 WELCOME
+                 ===================================================== -->
+
+            <section class="dashboard-welcome">
+
+                <div>
+                    <h2 class="cs-dashboard-title">
+                        Welcome to CampusSphere 👋
+                    </h2>
+
+                    <!-- Temporary: current authentication name -->
+                    <!-- This currently shows the logged-in email.
+                         We will replace it with the actual user name
+                         after checking the User/controller field. -->
+
+                    <p class="cs-dashboard-subtitle">
+                        Your campus. Your community. Your opportunities.
+                    </p>
+                </div>
+
+                <div class="dashboard-welcome-pill">
+                    ✨ Student Community
+                </div>
+
+            </section>
+
+
+            <!-- =====================================================
+                 LIVE STATISTICS
+                 ===================================================== -->
+
+            <div class="row g-4 dashboard-stats">
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-stat-card dashboard-stat-card">
+
+                        <div class="stat-icon">🛍️</div>
+
+                        <div class="cs-stat-value dashboard-counter"
+                             th:text="${marketplaceCount}">
+                        </div>
+
+                        <div class="cs-stat-label">
+                            Active Marketplace Listings
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-stat-card dashboard-stat-card">
+
+                        <div class="stat-icon">💼</div>
+
+                        <div class="cs-stat-value dashboard-counter"
+                             th:text="${freelanceCount}">
+                        </div>
+
+                        <div class="cs-stat-label">
+                            Available Freelance Services
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-stat-card dashboard-stat-card">
+
+                        <div class="stat-icon">🎓</div>
+
+                        <div class="cs-stat-value dashboard-counter"
+                             th:text="${guidanceCount}">
+                        </div>
+
+                        <div class="cs-stat-label">
+                            Published Guidance Posts
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-stat-card dashboard-stat-card">
+
+                        <div class="stat-icon">🔎</div>
+
+                        <div class="cs-stat-value dashboard-counter"
+                             th:text="${lostFoundCount}">
+                        </div>
+
+                        <div class="cs-stat-label">
+                            Open Lost &amp; Found Posts
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-stat-card dashboard-stat-card">
+
+                        <div class="stat-icon">🌍</div>
+
+                        <div class="cs-stat-value dashboard-counter"
+                             th:text="${opportunityCount}">
+                        </div>
+
+                        <div class="cs-stat-label">
+                            Global Opportunities
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 MODULE QUICK LINKS
+                 ===================================================== -->
+
+            <h5 class="dashboard-section-title">
+                Explore CampusSphere
+            </h5>
+
+            <div class="row g-4">
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <a class="cs-module-card cs-module-card-active dashboard-module-card"
+                       href="/marketplace">
+
+                        <span class="module-icon">🛍️</span>
+
+                        <h4>Marketplace</h4>
+
+                        <span class="badge cs-badge-live">
+                            Browse &amp; Sell
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <a class="cs-module-card cs-module-card-active dashboard-module-card"
+                       href="/freelance">
+
+                        <span class="module-icon">💼</span>
+
+                        <h4>Freelance Hub</h4>
+
+                        <span class="badge cs-badge-live">
+                            Browse &amp; Post
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <a class="cs-module-card cs-module-card-active dashboard-module-card"
+                       href="/guidance">
+
+                        <span class="module-icon">🎓</span>
+
+                        <h4>Senior Guidance</h4>
+
+                        <span class="badge cs-badge-live">
+                            Browse &amp; Share
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <a class="cs-module-card cs-module-card-active dashboard-module-card"
+                       href="/lostfound">
+
+                        <span class="module-icon">🔎</span>
+
+                        <h4>Lost &amp; Found</h4>
+
+                        <span class="badge cs-badge-live">
+                            Report &amp; Browse
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <a class="cs-module-card cs-module-card-active dashboard-module-card"
+                       href="/global">
+
+                        <span class="module-icon">🌍</span>
+
+                        <h4>Global</h4>
+
+                        <span class="badge cs-badge-live">
+                            Discover &amp; Save
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 RECENT ACTIVITY
+                 ===================================================== -->
+
+            <h5 class="dashboard-section-title">
+                Recent Activity
+            </h5>
+
+            <div class="row g-4">
+
+                <!-- Marketplace -->
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-recent-card dashboard-recent-card">
+
+                        <div class="recent-heading">
+                            <span>🛍️</span>
+                            <h6>Marketplace</h6>
+                        </div>
+
+                        <ul class="cs-recent-list"
+                            th:if="${!recentMarketplace.isEmpty()}">
+
+                            <li th:each="item : ${recentMarketplace}">
+
+                                <a th:href="@{'/marketplace/' + ${item.id}}"
+                                   th:text="${item.title}">
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <p class="cs-card-meta"
+                           th:if="${recentMarketplace.isEmpty()}">
+                            No listings yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Freelance -->
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-recent-card dashboard-recent-card">
+
+                        <div class="recent-heading">
+                            <span>💼</span>
+                            <h6>Freelance Hub</h6>
+                        </div>
+
+                        <ul class="cs-recent-list"
+                            th:if="${!recentFreelance.isEmpty()}">
+
+                            <li th:each="item : ${recentFreelance}">
+
+                                <a th:href="@{'/freelance/' + ${item.id}}"
+                                   th:text="${item.title}">
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <p class="cs-card-meta"
+                           th:if="${recentFreelance.isEmpty()}">
+                            No services yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Guidance -->
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-recent-card dashboard-recent-card">
+
+                        <div class="recent-heading">
+                            <span>🎓</span>
+                            <h6>Senior Guidance</h6>
+                        </div>
+
+                        <ul class="cs-recent-list"
+                            th:if="${!recentGuidance.isEmpty()}">
+
+                            <li th:each="item : ${recentGuidance}">
+
+                                <a th:href="@{'/guidance/' + ${item.id}}"
+                                   th:text="${item.title}">
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <p class="cs-card-meta"
+                           th:if="${recentGuidance.isEmpty()}">
+                            No guidance posts yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Lost & Found -->
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-recent-card dashboard-recent-card">
+
+                        <div class="recent-heading">
+                            <span>🔎</span>
+                            <h6>Lost &amp; Found</h6>
+                        </div>
+
+                        <ul class="cs-recent-list"
+                            th:if="${!recentLostFound.isEmpty()}">
+
+                            <li th:each="item : ${recentLostFound}">
+
+                                <a th:href="@{'/lostfound/' + ${item.id}}"
+                                   th:text="${item.title}">
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <p class="cs-card-meta"
+                           th:if="${recentLostFound.isEmpty()}">
+                            No posts yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Global -->
+
+                <div class="col-lg-2-4 col-md-4 col-sm-6">
+
+                    <div class="cs-recent-card dashboard-recent-card">
+
+                        <div class="recent-heading">
+                            <span>🌍</span>
+                            <h6>Global</h6>
+                        </div>
+
+                        <ul class="cs-recent-list"
+                            th:if="${!recentOpportunities.isEmpty()}">
+
+                            <li th:each="item : ${recentOpportunities}">
+
+                                <a th:href="@{'/global/' + ${item.id}}"
+                                   th:text="${item.title}">
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <p class="cs-card-meta"
+                           th:if="${recentOpportunities.isEmpty()}">
+                            No opportunities yet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+
+</body>
+</html>
